@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-const char conv[]="0001GJ2HX3IY4LL5MM6NN7OO8PP9QQARRBSSCKTDUWEVVFZZ";
+const char conv[]="0001GJ2HX3IY4LL5MM6NN7OO8PP9QQARRBSSCKTDUWEVVFZZ";		//Conversion table
 
 int isval(char c){
 	if(c=='\0' || c=='\n') return 0;										//End of string (stop)
@@ -15,7 +15,7 @@ int main(int argc,char *argv[]){
 	int len,last;
 	char *cur,sum,wlst,c;
 	uint8_t *pool;
-
+	uint64_t xorcomb;
 	if (argc==2){															//If a string is provided
 		len=0;																//Initialize
 		last=4;
@@ -33,7 +33,6 @@ int main(int argc,char *argv[]){
 			last=4;
 			while(isval(*cur)){												//convert
 				printf("\n %c = ",*cur);
-
 				if(last==3 && last!=isval(*cur)){							//Add one character
 					c=sum;
 					c^=(c>>4);												//Xor nibbles together
@@ -41,6 +40,8 @@ int main(int argc,char *argv[]){
 					if(c!=wlst){
 						//Add to string
 						printf("%x,",c);
+						if((len%2)==0) pool[len/2]=0;
+						pool[len/2]|=((c&0x0F)<<((len%2)?4:0));
 						len++;
 						wlst=c;
 					};
@@ -55,18 +56,58 @@ int main(int argc,char *argv[]){
 					if(sum!=wlst){
 						//Add to string
 						printf("%x",sum);
+						if((len%2)==0) pool[len/2]=0;
+						pool[len/2]|=((sum&0x0F)<<((len%2)?4:0));
 						len++;
 						wlst=sum;
 					};
 					sum=0;
 				}else if(isval(*cur)==3) sum+=*cur;							//Add to sum
-
 				last=isval(*cur);
 				cur++;
 			};
-
-			printf("\nLenth: %i\n", len);
-
+			printf("\nChars: %i", len);
+			if(len%2) len+=1;
+			len/=2;
+			printf(" Size: %i\n", len);
+			if(len%8){
+				for(int i=0;i<(8-(i%8));i++) pool[len+i]=0;
+			};
+			xorcomb=0;
+			for(int i=0;i<len;i++){
+				if(i) printf(",");
+				printf("%u",pool[i]);
+				xorcomb^=pool[i];
+			};
+			printf("\t(xor:%u)\n",(uint8_t)xorcomb);
+			xorcomb=0;
+			if(len%2) len+=1;
+			len/=2;
+			for(int i=0;i<len;i++){
+				if(i) printf(",");
+				printf("%u",*((uint16_t*)pool+i));
+				xorcomb^=*((uint16_t*)pool+i);
+			};
+			printf("\t(xor:%u)\n",(uint16_t)xorcomb);
+			xorcomb=0;
+			if(len%2) len+=1;
+			len/=2;
+			for(int i=0;i<len;i++){
+				if(i) printf(",");
+				printf("%u",*((uint32_t*)pool+i));
+				xorcomb^=*((uint32_t*)pool+i);
+			};
+			printf("\t(xor:%u)\n",(uint32_t)xorcomb);
+			xorcomb=0;
+			if(len%2) len+=1;
+			len/=2;
+			for(int i=0;i<len;i++){
+				if(i) printf(",");
+				printf("%lu",*((uint64_t*)pool+i));
+				xorcomb^=*((uint64_t*)pool+i);
+			};
+			printf("\t(xor:%lu)\n",(uint64_t)xorcomb);
+			xorcomb=0;
 			free(pool);														//Free mem
 		}else printf("Memory not available!\n");
 	}else{
