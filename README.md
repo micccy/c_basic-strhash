@@ -23,23 +23,24 @@ The 5 of the 6 characters that have been chosen to be the 3rd ones are JKWXY, an
 The character '0' has been put in group A, following 9 to make it easirer for users using decimal notation to reverse engineer numbers they hashed  
 The groups are listed below  
   
-HASH	CHAR  
-0  
-1	1GJ  
-2	2HX  
-3	3IY  
-4	4L  
-5	5M  
-6	6N  
-7	7O  
-8	8P  
-9	9Q  
-A	AR0  
-B	BS  
-C	CTK  
-D	DUW  
-E	EV  
-F	FZ  
+|HASH	|CHAR|  
+|:---:	|:---:|
+|0		||  
+|1		|1GJ|  
+|2		|2HX|  
+|3		|3IY|  
+|4		|4L|  
+|5		|5M|  
+|6		|6N|  
+|7		|7O|  
+|8		|8P|  
+|9		|9Q|  
+|A		|AR0|  
+|B		|BS|  
+|C		|CTK|  
+|D		|DUW|  
+|E		|EV|  
+|F		|FZ|  
   
 The resulting hashed sequence can never have identical consecutive nibbles  
 Nibbles are grouped into uint8\_t,uint16\_t,uint16\_t and uint64\_t little endian sequences  
