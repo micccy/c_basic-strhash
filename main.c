@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-const char conv[]="0001GJ2HX3IY4LL5MM6NN7OO8PP9QQARRBSSCKTDUWEVVFZZ";		//Conversion table
+const char conv[]="???1GJ2HX3IY4L?5M?6N?7O?8P?9Q?AR0BS?CKTDUWEV?FZ?";		//Conversion table
 
 int isval(char c){
 	if(c=='\0' || c=='\n') return 0;										//End of string (stop)
