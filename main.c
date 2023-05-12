@@ -31,15 +31,14 @@ int main(int argc,char *argv[]){
 			sum=0;
 			wlst=0x10;
 			last=4;
-			while(isval(*cur)){												//convert
-				printf("\n %c = ",*cur);
+			while(last){													//convert
 				if(last==3 && last!=isval(*cur)){							//Add one character
 					c=sum;
-					c^=(c>>4);												//Xor nibbles together
-					c&=0x0F;
+					c%=15;													//Modulo 15 (0-14)
+					c+=0x01;												//Add 1 (1-15)
 					if(c!=wlst){
 						//Add to string
-						printf("%x,",c);
+						printf("%x",c);
 						if((len%2)==0) pool[len/2]=0;
 						pool[len/2]|=((c&0x0F)<<((len%2)?4:0));
 						len++;
@@ -47,6 +46,7 @@ int main(int argc,char *argv[]){
 					};
 					sum=0;
 				};
+				if(isval(*cur)) printf("\n %c = ",*cur);
 				if(isval(*cur)==2){
 					c=*cur;
 					if(c>='a') c&=0xDF;										//Force uppercase

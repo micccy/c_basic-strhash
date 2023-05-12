@@ -11,11 +11,11 @@ since the user will only have ever messed with a limited set of host names, this
   
 Only the lower 8bits matter if char is bigger than int8\_t  
 ASCII control codes (<0x20) are ignored  
-Non-alphanumeric values have their nibbles xored to get a single 4 bit figure  
+Non-alphanumeric values are moduloed by 15 and increased by 1 to get a single 1-15 4bits figure  
 Multiple consecutive non-alphanumeric values are added together and treated as a single one  
 Nibbles replace alphanumeric values using the rules written below  
   
-0 is reserved as the NUL character  
+0 is reserved as the NUL character - might be used to signal anything  
 1-9 and (case insensitive) A-F map to the corresponding hexadecimal figure  
 Remaining characters are then mapped starting from 1  
 Since there are 36 characters and only 15 slots, 9 slots will have 2 characters mapped while the 6 remaining slots will have 3  
